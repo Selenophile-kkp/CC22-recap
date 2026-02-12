@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { registerValidator } from "../validators/register.validator";
 
 function Register() {
   const [fromData, setFormdata] = useState({
@@ -10,6 +11,7 @@ function Register() {
     email: "",
     phone: "",
   });
+  const [error, setError] = useState(null);
   const inputStyle = "border p-0.5 px-2 border-gray-500 rounded-md";
 
   const navigate = useNavigate();
@@ -22,6 +24,14 @@ function Register() {
 
   const hdlSubmit = async (evt) => {
     evt.preventDefault();
+    setError({});
+    const result = registerValidator.safeParse(fromData);
+    if (!result.success) {
+      const { fieldErrors } = result.error.flatten();
+      console.log(fieldErrors);
+      setError(fieldErrors);
+      return;
+    }
 
     try {
       const res = await axios.post(
@@ -35,6 +45,8 @@ function Register() {
       console.log("เกิดข้อผิดพลาด");
     }
   };
+
+  console.log("error", error);
 
   return (
     <div className="min-h-screen bg-amber-50 flex justify-center items-center p-4">
@@ -52,6 +64,9 @@ function Register() {
           onChange={hdlChange}
           value={fromData.username}
         />
+        {error?.username && (
+          <p className="text-red-600">{error?.username[0]}</p>
+        )}
 
         <label htmlFor="">Password : </label>
         <input
@@ -62,6 +77,9 @@ function Register() {
           onChange={hdlChange}
           value={fromData.password}
         />
+        {error?.password && (
+          <p className="text-red-600">{error?.password[0]}</p>
+        )}
 
         <label htmlFor="">Emaill : </label>
         <input
@@ -72,6 +90,7 @@ function Register() {
           onChange={hdlChange}
           value={fromData.email}
         />
+        {error?.email && <p className="text-red-600">{error?.email[0]}</p>}
 
         <label htmlFor="">Phone : </label>
         <input
@@ -82,6 +101,7 @@ function Register() {
           onChange={hdlChange}
           value={fromData.phone}
         />
+        {error?.phone && <p className="text-red-600">{error?.phone[0]}</p>}
 
         <button className="bg-amber-200 py-1 mt-3 rounded-2xl cursor-pointer hover:bg-amber-400">
           Register
