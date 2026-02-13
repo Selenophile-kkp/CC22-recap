@@ -41,7 +41,7 @@ function Register() {
       console.log("Register successfully", res.data);
       toast.success("ลงทะเบียนสำเร็จ!!");
       navigate("/post");
-    } catch (error) {
+    } catch {
       console.log("เกิดข้อผิดพลาด");
     }
   };

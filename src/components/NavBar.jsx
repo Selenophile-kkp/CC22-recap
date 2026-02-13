@@ -14,6 +14,15 @@ function NavBar() {
         <NavLink to="post" className="hover:text-gray-400">
           Post
         </NavLink>
+        <NavLink to="login" className="hover:text-gray-400">
+          Login
+        </NavLink>
+        <NavLink to="profile" className="hover:text-gray-400">
+          Profile
+        </NavLink>
+        <NavLink to="tokenprofile" className="hover:text-gray-400">
+          TokenProfile
+        </NavLink>
       </div>
     </div>
   );
